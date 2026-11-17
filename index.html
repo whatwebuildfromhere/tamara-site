@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tamara [Last Name] — Payroll, HR &amp; Notary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet" />
+  <style>
+    /* =========================================================
+       Design tokens — easy to revise
+       Palette: deep navy, crisp white, soft sage, brass/gold
+       Headings: Playfair Display    Body: Inter
+       ========================================================= */
+    :root {
+      --navy: #1A2744;
+      --navy-deep: #121B30;
+      --navy-mid: #2C3D5C;
+      --white: #FFFFFF;
+      --cream: #F7F6F2;
+      --sage: #C9D4C6;
+      --sage-soft: #E7EDE5;
+      --sage-mid: #9AAF96;
+      --sage-deep: #5C6E59;
+      --brass: #C4A35A;
+      --brass-deep: #9A7B35;
+      --brass-soft: #F3EBD6;
+      --ink: #2B3038;
+      --muted: #5C6570;
+      --line: #E3E0D8;
+      --max: 1120px;
+      --radius: 12px;
+      --shadow: 0 16px 40px rgba(18, 27, 48, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--ink);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    h1, h2, h3, .serif { font-family: "Playfair Display", Georgia, serif; font-weight: 600; letter-spacing: -0.02em; color: var(--navy); }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 48px));
+      margin-inline: auto;
+    }
+
+    /* Visible editorial placeholders */
+    .confirm {
+      display: inline-block;
+      font-family: Inter, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      line-height: 1.3;
+      color: var(--brass-deep);
+      background: var(--brass-soft);
+      border: 1px dashed var(--brass);
+      padding: 0.12em 0.5em;
+      border-radius: 3px;
+      vertical-align: 0.12em;
+      white-space: nowrap;
+    }
+
+    /* ---------- Nav ---------- */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--navy);
+      color: var(--white);
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 72px;
+    }
+    .nav nav { margin-left: auto; margin-right: 4px; }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+    .brand-name {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .brand-name span { color: var(--brass); font-weight: 500; font-style: italic; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .nav-links a { color: rgba(255,255,255,0.86); }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      background: var(--brass);
+      color: var(--navy-deep) !important;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.55em 1em;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .nav-cta:hover { background: #d4b56a; }
+    .confirm-long { white-space: normal; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      background: var(--cream);
+      padding: 72px 0 88px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: var(--sage-soft);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 72px;
+      align-items: start;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      margin-bottom: 18px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 1px;
+      background: var(--brass);
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 4.4vw, 4rem);
+      line-height: 1.12;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero-lead {
+      font-size: 1.125rem;
+      color: var(--muted);
+      max-width: 34em;
+      margin-bottom: 32px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0.9em 1.35em;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      text-align: center;
+    }
+    .btn-primary {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--navy-mid); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+    .btn-secondary:hover { background: var(--white); }
+
+    /* Hero portrait */
+    .photo-frame {
+      position: relative;
+      width: min(100%, 300px);
+      margin-left: auto;
+    }
+    .photo-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--sage);
+      border-radius: 4px 4px 80px 4px;
+      object-fit: cover;
+      object-position: center top;
+      background: var(--sage-soft);
+    }
+    .seal {
+      position: absolute;
+      left: -28px;
+      bottom: 20px;
+      width: 108px;
+      height: 108px;
+      filter: drop-shadow(0 6px 16px rgba(18, 27, 48, 0.12));
+      pointer-events: none;
+    }
+
+    /* ---------- Shared section styles ---------- */
+    section { padding: 88px 0; }
+    .section-kicker {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--brass-deep);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.9rem, 3vw, 2.65rem);
+      line-height: 1.18;
+      margin-bottom: 14px;
+      max-width: 16em;
+    }
+    .section-sub {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 36em;
+      margin-bottom: 40px;
+    }
+    .section-head { margin-bottom: 8px; }
+
+    /* ---------- About ---------- */
+    #about { background: var(--white); }
+    #about .section-head { margin-bottom: 40px; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.9fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .about-copy p {
+      margin-bottom: 1.1em;
+      max-width: 38em;
+    }
+    .about-copy p:last-child { margin-bottom: 0; }
+    .about-aside {
+      background: var(--sage-soft);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+    }
+    .about-aside h3 {
+      font-size: 1.35rem;
+      margin-bottom: 16px;
+    }
+    .about-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .about-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: var(--ink);
+      font-size: 0.98rem;
+    }
+    .about-list .icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--navy);
+    }
+
+    /* ---------- Payroll ---------- */
+    #payroll { background: var(--cream); }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px 26px 26px;
+    }
+    .card .icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--sage-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      color: var(--navy);
+    }
+    .card .icon-wrap svg { width: 22px; height: 22px; }
+    .card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+    .card p { color: var(--muted); font-size: 0.98rem; }
+    .card .confirm { margin-top: 12px; }
+
+    /* ---------- Notary ---------- */
+    #notary { background: var(--white); overflow-x: clip; }
+    .notary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+    .panel {
+      border-radius: var(--radius);
+      padding: 32px;
+      border: 1px solid var(--line);
+      background: var(--cream);
+    }
+    .panel-navy {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+      position: relative;
+      overflow: clip;
+    }
+    .panel-navy h3, .panel-navy .section-kicker { color: var(--brass-soft); }
+    .panel-navy p, .panel-navy li { color: rgba(255,255,255,0.9); }
+    .panel h3 {
+      font-size: 1.4rem;
+      margin: 4px 0 16px;
+    }
+    .detail-row {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-top: 1px solid rgba(26, 39, 68, 0.08);
+    }
+    .panel-navy .detail-row { border-top-color: rgba(255,255,255,0.12); }
+    .detail-row:first-of-type { border-top: 0; padding-top: 0; }
+    .detail-row .icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .detail-row strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+    }
+    .detail-row p { font-size: 0.95rem; }
+    .bring-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .bring-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .bring-list .tick {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--brass);
+    }
+    .panel-seal {
+      position: absolute;
+      right: -30px;
+      bottom: -30px;
+      width: 160px;
+      height: 160px;
+      opacity: 0.16;
+      pointer-events: none;
+    }
+
+    /* ---------- How it works ---------- */
+    #how { background: var(--cream); }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      counter-reset: step;
+    }
+    .step {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      border: 1px solid var(--line);
+      position: relative;
+    }
+    .step-num {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 2rem;
+      color: var(--brass);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .step h3 {
+      font-size: 1.35rem;
+      margin-bottom: 8px;
+    }
+    .step p { color: var(--muted); font-size: 0.98rem; }
+
+    /* ---------- FAQ ---------- */
+    #faq { background: var(--white); }
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--line);
+      max-width: 820px;
+    }
+    .faq-item {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .faq-item h3 {
+      font-family: Inter, sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0;
+      margin-bottom: 8px;
+    }
+    .faq-item p { color: var(--muted); }
+
+    /* ---------- Contact ---------- */
+    #contact { background: var(--cream); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .contact-facts {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      margin-top: 8px;
+    }
+    .fact strong {
+      display: block;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      margin-bottom: 4px;
+    }
+    .fact p { color: var(--navy); font-weight: 500; }
+    form.booking {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--navy);
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--cream);
+      border-radius: 8px;
+      padding: 0.75em 0.9em;
+      color: var(--ink);
+      outline: none;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--navy);
+      background: var(--white);
+    }
+    .field textarea { min-height: 120px; resize: vertical; }
+    .form-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin: 8px 0 16px;
+    }
+    form.booking .btn { width: 100%; }
+
+    /* ---------- Footer ---------- */
+    footer.site-footer {
+      background: var(--navy-deep);
+      color: rgba(255,255,255,0.82);
+      padding: 48px 0 36px;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .footer-wordmark {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.4rem;
+      color: var(--white);
+      font-weight: 600;
+    }
+    .footer-wordmark span { color: var(--brass); font-style: italic; font-weight: 500; }
+    .footer-line {
+      font-family: "Playfair Display", Georgia, serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--brass-soft);
+    }
+    .footer-bottom {
+      padding-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.62);
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      .wrap { width: min(var(--max), calc(100% - 36px)); }
+      .nav-links { display: none; }
+      .hero { padding: 48px 0 56px; }
+      .hero-grid,
+      .about-grid,
+      .notary-grid,
+      .contact-grid,
+      .cards,
+      .steps,
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .photo-frame {
+        width: min(100%, 260px);
+        margin: 12px auto 0;
+      }
+      .seal { left: -8px; bottom: 12px; width: 84px; height: 84px; }
+      section { padding: 64px 0; }
+      #about .section-head { margin-bottom: 24px; }
+      .footer-top { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .nav nav { display: none; margin: 0; }
+      .nav { gap: 12px; }
+      .panel-seal { width: 110px; height: 110px; right: -16px; bottom: -28px; }
+    }
+
+    @media (max-width: 480px) {
+      .wrap { width: calc(100% - 32px); }
+      .hero h1 { font-size: 2.15rem; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .btn { width: 100%; }
+      form.booking, .panel, .about-aside { padding: 24px 20px; }
+      .brand-name { font-size: 1.05rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Seal artwork (reused via <use>) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <symbol id="notary-seal" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="57" fill="none" stroke="#C4A35A" stroke-width="2.5"/>
+      <circle cx="60" cy="60" r="51" fill="none" stroke="#C4A35A" stroke-width="1"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#C4A35A" stroke-width="3.5" stroke-dasharray="3 3.2"/>
+      <circle cx="60" cy="60" r="28" fill="none" stroke="#C4A35A" stroke-width="1.25"/>
+      <path d="M60 38l4.2 8.6 9.5 1.4-6.9 6.7 1.6 9.5L60 59.6l-8.4 4.6 1.6-9.5-6.9-6.7 9.5-1.4Z" fill="#C4A35A"/>
+    </symbol>
+    <symbol id="icon-person" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="3.2"/>
+      <path d="M5.5 19c.8-3.2 3.2-5 6.5-5s5.7 1.8 6.5 5"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12.5l5 5 9-10"/>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="8"/>
+      <path d="M12 8v4.5l3 2"/>
+    </symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 21s6.5-5.2 6.5-10.2A6.5 6.5 0 0 0 5.5 10.8C5.5 15.8 12 21 12 21z"/>
+      <circle cx="12" cy="10.5" r="2.1"/>
+    </symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="5.5" width="16" height="14.5" rx="2"/>
+      <path d="M8 3.5V7M16 3.5V7M4 10h16"/>
+    </symbol>
+    <symbol id="icon-payroll" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="6" width="17" height="12" rx="1.5"/>
+      <path d="M3.5 10h17M8 15h3"/>
+    </symbol>
+    <symbol id="icon-forms" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 4.5h7.5L19 8v11.5H8A1.5 1.5 0 0 1 6.5 18V6A1.5 1.5 0 0 1 8 4.5z"/>
+      <path d="M15.5 4.5V8H19M10 12h6M10 15.5h4"/>
+    </symbol>
+    <symbol id="icon-files" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 6.5h9.5v13H8A1.5 1.5 0 0 1 6.5 18V8A1.5 1.5 0 0 1 8 6.5z"/>
+      <path d="M6.5 16V6A1.5 1.5 0 0 1 8 4.5h8"/>
+    </symbol>
+    <symbol id="icon-support" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="7.5"/>
+      <path d="M9.2 10.2a2.8 2.8 0 0 1 5.5.6c0 1.6-2.7 2-2.7 3.4M12 17.2h.01"/>
+    </symbol>
+    <symbol id="icon-id" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="6" width="18" height="12" rx="1.5"/>
+      <circle cx="8.5" cy="12" r="1.8"/>
+      <path d="M12.5 10.5h6M12.5 13.5h4"/>
+    </symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="#top">
+        <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true">
+          <circle cx="18" cy="18" r="17" fill="none" stroke="#C4A35A" stroke-width="1.4"/>
+          <circle cx="18" cy="18" r="13.5" fill="none" stroke="#C4A35A" stroke-width="0.7"/>
+          <text x="18" y="22.5" text-anchor="middle" fill="#C4A35A" font-family="Playfair Display, Georgia, serif" font-size="14" font-weight="600">T</text>
+        </svg>
+        <span class="brand-name">Tamara <span>[Last Name]</span></span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#payroll">Payroll &amp; HR</a></li>
+          <li><a href="#notary">Notary</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <a class="nav-cta" href="#contact">Book a consult</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">HR coordination · Payroll · Notary</p>
+          <h1>Paperwork done right.<br />People treated right.</h1>
+          <p class="hero-lead">Help with payroll, everyday HR, and notary appointments—handled carefully, in plain language.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#payroll">Get payroll help</a>
+            <a class="btn btn-secondary" href="#notary">Book a notary appointment</a>
+          </div>
+        </div>
+        <div class="photo-frame">
+          <img src="tamara.jpg" alt="Portrait of Tamara [Last Name]" width="245" height="640" />
+          <svg class="seal" aria-hidden="true"><use href="#notary-seal"/></svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">About Tamara</p>
+          <h2 class="section-title">A careful partner for the details that matter.</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-copy">
+            <p>I’m Tamara, an HR coordinator who specializes in payroll and a notary. I care about getting the details right, because behind every paycheck and every signature is a real person counting on it. <span class="confirm">[confirm]</span></p>
+            <p>I work with small businesses and individuals who want things done clearly and on time. <span class="confirm">[confirm who she serves]</span></p>
+          </div>
+          <div class="about-aside">
+            <h3>What I focus on</h3>
+            <ul class="about-list">
+              <li>
+                <svg class="icon" aria-hidden="true"><use href="#icon-payroll"/></svg>
+                <span>Payroll processing and day-to-day payroll questions</span>
+              </li>
+              <li>
+                <svg class="icon" aria-hidden="true"><use href="#icon-forms"/></svg>
+                <span>New hire paperwork and HR document organization</span>
+              </li>
+              <li>
+                <svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>
+                <span>Notary services, including mobile or by appointment <span class="confirm">[confirm]</span></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="payroll">
+      <div class="wrap">
+        <p class="section-kicker">Payroll &amp; HR support</p>
+        <h2 class="section-title">Every paycheck, right and on time.</h2>
+        <p class="section-sub">Payroll shouldn’t keep you up at night. I help keep pay and paperwork accurate, organized, and on schedule.</p>
+        <div class="cards">
+          <article class="card">
+            <div class="icon-wrap"><svg aria-hidden="true"><use href="#icon-payroll"/></svg></div>
+            <h3>Payroll processing &amp; questions</h3>
+            <p>Need help running payroll, or have a question about it? I can help you keep it accurate and on schedule.</p>
+            <p><span class="confirm">[confirm]</span></p>
+          </article>
+          <article class="card">
+            <div class="icon-wrap"><svg aria-hidden="true"><use href="#icon-forms"/></svg></div>
+            <h3>New hire paperwork</h3>
+            <p>I help get new team members set up with the right forms, in the right order, so nothing gets missed.</p>
+            <p><span class="confirm">[confirm]</span></p>
+          </article>
+          <article class="card">
+            <div class="icon-wrap"><svg aria-hidden="true"><use href="#icon-files"/></svg></div>
+            <h3>HR document organization</h3>
+            <p>I help keep employment files clear, complete, and easy to find when you need them.</p>
+            <p><span class="confirm">[confirm]</span></p>
+          </article>
+          <article class="card">
+            <div class="icon-wrap"><svg aria-hidden="true"><use href="#icon-support"/></svg></div>
+            <h3>Ongoing HR coordination</h3>
+            <p>Day-to-day HR support so you can stay focused on the work itself.</p>
+            <p><span class="confirm">[confirm]</span></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="notary">
+      <div class="wrap">
+        <p class="section-kicker">Notary services</p>
+        <h2 class="section-title">Need it notarized? Let’s make it official.</h2>
+        <p class="section-sub">A simple appointment to get your documents notarized. Come prepared, sign in front of me, and leave with it done.</p>
+        <div class="notary-grid">
+          <div class="panel">
+            <p class="section-kicker">What to expect</p>
+            <h3>Service details</h3>
+            <div class="detail-row">
+              <svg class="icon" aria-hidden="true"><use href="#icon-pin"/></svg>
+              <div>
+                <strong>Service area</strong>
+                <p>Service area to be confirmed. <span class="confirm">[confirm]</span></p>
+              </div>
+            </div>
+            <div class="detail-row">
+              <svg class="icon" aria-hidden="true"><use href="#icon-calendar"/></svg>
+              <div>
+                <strong>How we meet</strong>
+                <p>Mobile notary or by appointment. <span class="confirm">[confirm]</span></p>
+              </div>
+            </div>
+            <div class="detail-row">
+              <svg class="icon" aria-hidden="true"><use href="#icon-clock"/></svg>
+              <div>
+                <strong>Hours</strong>
+                <p>Hours to be confirmed. <span class="confirm">[confirm]</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-navy">
+            <svg class="panel-seal" aria-hidden="true"><use href="#notary-seal"/></svg>
+            <p class="section-kicker">Before you come</p>
+            <h3>What to bring</h3>
+            <ul class="bring-list">
+              <li>
+                <svg class="tick" aria-hidden="true"><use href="#icon-id"/></svg>
+                <span>A valid, government-issued photo ID</span>
+              </li>
+              <li>
+                <svg class="tick" aria-hidden="true"><use href="#icon-forms"/></svg>
+                <span>The unsigned document — you’ll sign in front of the notary</span>
+              </li>
+              <li>
+                <svg class="tick" aria-hidden="true"><use href="#icon-check"/></svg>
+                <span>Any witnesses the document requires, if it needs them <span class="confirm">[confirm]</span></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="wrap">
+        <p class="section-kicker">How it works</p>
+        <h2 class="section-title">Three simple steps.</h2>
+        <p class="section-sub">Whether you need payroll help or a notary appointment, the path is the same.</p>
+        <div class="steps">
+          <article class="step">
+            <div class="step-num">01</div>
+            <h3>Reach out</h3>
+            <p>Tell me what you need. Payroll help or a notary appointment—either is a good place to start.</p>
+          </article>
+          <article class="step">
+            <div class="step-num">02</div>
+            <h3>We confirm the details</h3>
+            <p>We’ll go over timing, what to bring, and any questions you have.</p>
+          </article>
+          <article class="step">
+            <div class="step-num">03</div>
+            <h3>It gets done</h3>
+            <p>Your payroll gets processed, or your document gets notarized. Clearly, and on time.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap">
+        <p class="section-kicker">FAQ</p>
+        <h2 class="section-title">A few common questions.</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <h3>Do I sign before I arrive?</h3>
+            <p>No. Wait to sign until you are in front of the notary.</p>
+          </div>
+          <div class="faq-item">
+            <h3>What should I bring to a notary appointment?</h3>
+            <p>A valid, government-issued photo ID and the unsigned document.</p>
+          </div>
+          <div class="faq-item">
+            <h3>What are your hours?</h3>
+            <p>Hours to be confirmed. <span class="confirm">[confirm]</span></p>
+          </div>
+          <div class="faq-item">
+            <h3>How do I pay?</h3>
+            <p>Payment methods to be confirmed. <span class="confirm">[confirm]</span></p>
+          </div>
+          <div class="faq-item">
+            <h3>Do you travel to me, or do I come to you?</h3>
+            <p>Mobile notary or by appointment — to be confirmed. <span class="confirm">[confirm]</span></p>
+          </div>
+          <div class="faq-item">
+            <h3>Who do you work with?</h3>
+            <p>Small businesses and individuals who need payroll, HR, or notary help. <span class="confirm">[confirm]</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap contact-grid">
+        <div>
+          <p class="section-kicker">Contact &amp; booking</p>
+          <h2 class="section-title">Let’s get started.</h2>
+          <p class="section-sub">Share a little about what you need. I’ll follow up to confirm the details.</p>
+          <div class="contact-facts">
+            <div class="fact">
+              <strong>Phone</strong>
+              <p>[Phone number] <span class="confirm">[confirm]</span></p>
+            </div>
+            <div class="fact">
+              <strong>Email</strong>
+              <p>[email@example.com] <span class="confirm">[confirm]</span></p>
+            </div>
+            <div class="fact">
+              <strong>Hours</strong>
+              <p>[Hours] <span class="confirm">[confirm]</span></p>
+            </div>
+            <div class="fact">
+              <strong>Service area</strong>
+              <p>[City / service area] <span class="confirm">[confirm]</span></p>
+            </div>
+          </div>
+        </div>
+        <form class="booking" action="#" method="get" onsubmit="return false;">
+          <div class="form-row">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 000-0000" />
+            </div>
+            <div class="field">
+              <label for="need">What do you need?</label>
+              <select id="need" name="need">
+                <option value="">Please choose</option>
+                <option>Payroll help</option>
+                <option>Notary appointment</option>
+                <option>HR support</option>
+                <option>Something else</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="message">A little more about what you need</label>
+            <textarea id="message" name="message" placeholder="Documents, timing, or questions…"></textarea>
+          </div>
+          <p class="form-note">This form is a mockup and does not send a message.</p>
+          <button class="btn btn-primary" type="button">Send a request</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div>
+          <p class="footer-wordmark">Tamara <span>[Last Name]</span></p>
+        </div>
+        <p class="footer-line">Detail-minded. People-first.</p>
+      </div>
+      <div class="footer-bottom">
+        <p>I am not an attorney, and notary services are not legal advice. <span class="confirm confirm-long">[confirm state-required wording, e.g. not an attorney]</span></p>
+        <p>Placeholder contact and service details only — not a live business listing.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
